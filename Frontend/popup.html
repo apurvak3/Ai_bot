@@ -1,18 +1,31 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Gemini AI</title>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            width: 300px;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Gemini AI</h1>
-    <div id="app"></div>
-    <script src="../main.py"></script>
+    <div id="tabs">
+        <button class="tab active" data-tab="chat">ChatBot</button>
+        <button class="tab" data-tab="image">Image Captioning</button>
+    </div>
+
+    <div id="chatSection">
+        <div class="chat-container" id="chatContainer"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Ask Gemini Pro...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <div id="imageSection" style="display: none;">
+        <input type="file" id="imageUpload" accept="image/*">
+        <button id="generateCaption">Generate Caption</button>
+        <div id="imagePreview"></div>
+        <div id="captionResult"></div>
+    </div>
+
+    <script src="popup.js"></script>
 </body>
 </html>

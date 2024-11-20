@@ -8,6 +8,7 @@ working_directory = os.path.dirname(os.path.realpath(__file__))
 config_file_path = f"{working_directory}/config.json"
 
 # Load the configuration data
+
 with open(config_file_path) as config_file:
     config_data = json.load(config_file)
 

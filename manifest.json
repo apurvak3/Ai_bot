@@ -10,8 +10,8 @@
     "128": "./icons/box-5-128.png"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "./frontend/popup.html"
   },
-  "permissions": ["storage"]
-
+  "permissions": ["storage"],
+   "service_worker": "./frontend/background.js"
 }
