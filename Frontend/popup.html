@@ -1,28 +1,42 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gemini AI</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Gemini AI Assistant</title>
+    <style>
+        body { width: 400px; font-family: Arial, sans-serif; }
+        .tabs { display: flex; }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f1f1f1;
+        }
+        .tab.active { background-color: #ccc; }
+        #chatContainer { height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; }
+        .message { margin: 5px 0; padding: 5px; }
+        .user-message { text-align: right; background-color: #e6f2ff; }
+        .bot-message { text-align: left; background-color: #f0f0f0; }
+    </style>
 </head>
 <body>
-    <div id="tabs">
-        <button class="tab active" data-tab="chat">ChatBot</button>
-        <button class="tab" data-tab="image">Image Captioning</button>
+    <div class="tabs">
+        <div class="tab active" data-tab="chat">ChatBot</div>
+        <div class="tab" data-tab="image">Image Captioning</div>
     </div>
 
     <div id="chatSection">
-        <div class="chat-container" id="chatContainer"></div>
+        <div id="chatContainer" class="chat-container"></div>
         <div class="input-container">
-            <input type="text" id="userInput" placeholder="Ask Gemini Pro...">
+            <input type="text" id="userInput" placeholder="Type your message...">
             <button id="sendButton">Send</button>
         </div>
     </div>
 
     <div id="imageSection" style="display: none;">
         <input type="file" id="imageUpload" accept="image/*">
-        <button id="generateCaption">Generate Caption</button>
         <div id="imagePreview"></div>
+        <button id="generateCaption">Generate Caption</button>
         <div id="captionResult"></div>
     </div>
 

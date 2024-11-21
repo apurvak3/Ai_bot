@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini AI Assistant",
+  "description": "An AI-powered browser assistant using Google's Gemini",
+  "version": "1.0",
+
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ]
+}

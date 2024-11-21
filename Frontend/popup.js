@@ -1,11 +1,11 @@
 let chatHistory = [];
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Tab switching
     const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(tab => {
+    tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
+            tabs.forEach((t) => t.classList.remove('active'));
             tab.classList.add('active');
 
             const tabName = tab.dataset.tab;
@@ -30,17 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = userInput.value.trim();
         if (!message) return;
 
-        // Add user message to chat
         appendMessage('user', message);
         userInput.value = '';
 
-        // Send to background script for processing
-        chrome.runtime.sendMessage(
-            { type: 'chat', message: message },
-            response => {
-                appendMessage('bot', response.text);
+        chrome.runtime.sendMessage({ type: 'chat', message: message }, (response) => {
+            if (response.error) {
+                appendMessage('bot', `Error: ${response.error}`);
+            } else {
+                appendMessage('bot', response.text || 'No response from bot');
             }
-        );
+        });
     }
 
     function appendMessage(sender, text) {
@@ -61,39 +60,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     imageUpload.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.maxWidth = '100%';
-                imagePreview.innerHTML = '';
-                imagePreview.appendChild(img);
-            };
-            reader.readAsDataURL(file);
+        if (!file || !file.type.startsWith('image/')) {
+            alert('Please upload a valid image file');
+            return;
         }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '100%';
+            imagePreview.innerHTML = '';
+            imagePreview.appendChild(img);
+            captionResult.textContent = '';
+        };
+        reader.readAsDataURL(file);
     });
 
     generateCaption.addEventListener('click', () => {
         const file = imageUpload.files[0];
-        if (!file) {
-            alert('Please upload an image first');
+        if (!file || !file.type.startsWith('image/')) {
+            alert('Please upload a valid image file');
             return;
         }
 
         const reader = new FileReader();
         reader.onload = (e) => {
             chrome.runtime.sendMessage(
-                {
-                    type: 'image',
-                    image: e.target.result
-                },
-                response => {
-                    captionResult.textContent = response.caption;
+                { type: 'image', image: e.target.result },
+                (response) => {
+                    if (response.error) {
+                        captionResult.textContent = `Error: ${response.error}`;
+                    } else {
+                        captionResult.textContent = response.caption || 'No caption generated';
+                    }
                 }
             );
         };
         reader.readAsDataURL(file);
     });
 });
-
